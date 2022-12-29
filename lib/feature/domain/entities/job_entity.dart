@@ -17,4 +17,14 @@ class JobEntity extends Equatable {
 
   @override
   List<Object?> get props => [id, companyId, title, description, city];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'companyId': companyId,
+      'title': title,
+      'description': description,
+      'city': city,
+    };
+  }
 }

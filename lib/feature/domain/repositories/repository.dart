@@ -9,4 +9,6 @@ abstract class Repository {
   Future<Either<Failure, List<JobEntity>>> getCompanyJobs(int companyId);
   Future<Either<Failure, void>> addJob(Map<String, dynamic> job);
   Future<Either<Failure, void>> addCompany(Map<String, dynamic> company);
+  Future<Either<Failure, void>> deleteJob(JobEntity job);
+  Future<Either<Failure, void>> deleteCompany(CompanyEntity company);
 }

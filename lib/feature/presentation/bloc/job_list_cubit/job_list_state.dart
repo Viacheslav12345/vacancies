@@ -47,3 +47,12 @@ class JobAdded extends JobState {
   @override
   List<Object> get props => [job];
 }
+
+class JobDeleted extends JobState {
+  final JobEntity job;
+
+  const JobDeleted(this.job);
+
+  @override
+  List<Object> get props => [job];
+}

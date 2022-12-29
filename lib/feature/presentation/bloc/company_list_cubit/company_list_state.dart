@@ -47,3 +47,12 @@ class CompanyAdded extends CompanyState {
   @override
   List<Object> get props => [company];
 }
+
+class CompanyDeleted extends CompanyState {
+  final CompanyEntity company;
+
+  const CompanyDeleted(this.company);
+
+  @override
+  List<Object> get props => [company];
+}

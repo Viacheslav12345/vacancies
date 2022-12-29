@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vacancies/core/error/failure.dart';
 import 'package:vacancies/feature/domain/entities/job_entity.dart';
 import 'package:vacancies/feature/domain/usecases/add_job.dart';
+import 'package:vacancies/feature/domain/usecases/delete_job.dart';
 import 'package:vacancies/feature/domain/usecases/get_all_jobs.dart';
 import 'package:vacancies/feature/presentation/bloc/job_list_cubit/job_list_state.dart';
 
@@ -13,7 +14,9 @@ const CASHED_FAILURE_MESSAGE = 'Cashe Failure';
 class JobListCubit extends Cubit<JobState> {
   final GetAllJobs getAllJobs;
   final AddJob addOneJob;
-  JobListCubit(this.addOneJob, {required this.getAllJobs}) : super(JobEmpty());
+  final DeleteJob deleteOneJob;
+  JobListCubit(this.addOneJob, this.deleteOneJob, {required this.getAllJobs})
+      : super(JobEmpty());
 
   void loadJob() async {
     if (state is JobLoading) return;
@@ -47,6 +50,19 @@ class JobListCubit extends Cubit<JobState> {
               JobError(message: _mapFailureToMessage(error)),
             ), (character) {
       emit(JobAdded(job));
+    });
+
+    loadJob();
+  }
+
+  void deleteJob(JobEntity jobDel) async {
+    final failureOrJob = await deleteOneJob(JobDel(jobDel: jobDel));
+
+    failureOrJob.fold(
+        (error) => emit(
+              JobError(message: _mapFailureToMessage(error)),
+            ), (character) {
+      emit(JobDeleted(jobDel));
     });
 
     loadJob();

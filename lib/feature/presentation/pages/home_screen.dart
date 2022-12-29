@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vacancies/common/app_colors.dart';
+import 'package:vacancies/feature/presentation/bloc/company_list_cubit/company_list_cubit.dart';
+import 'package:vacancies/feature/presentation/bloc/job_list_cubit/job_list_cubit.dart';
 import 'package:vacancies/feature/presentation/widgets/add_company_form.dart';
 import 'package:vacancies/feature/presentation/widgets/add_job_form.dart';
 import 'package:vacancies/feature/presentation/widgets/companies_list.dart';
@@ -46,16 +49,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           centerTitle: true,
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                (tabController.index == 0)
+                    ? BlocProvider.of<JobListCubit>(context).loadJob()
+                    : BlocProvider.of<CompanyListCubit>(context).loadCompany();
+              },
               focusColor: AppColors.buttonColor,
               icon: const Icon(Icons.refresh),
             ),
           ],
-          leading: IconButton(
-            onPressed: () {},
-            focusColor: AppColors.buttonColor,
-            icon: const Icon(Icons.star),
-          ),
+          // leading: IconButton(
+          //   onPressed: () {},
+          //   focusColor: AppColors.buttonColor,
+          //   icon: const Icon(Icons.star),
+          // ),
         ),
         body: TabBarView(
           controller: tabController,
@@ -78,8 +85,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               )
             : null,
       ),
-
-      // const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vacancies/core/error/failure.dart';
 import 'package:vacancies/feature/domain/entities/company_entity.dart';
 import 'package:vacancies/feature/domain/usecases/add_company.dart';
+import 'package:vacancies/feature/domain/usecases/delete_company.dart';
 import 'package:vacancies/feature/domain/usecases/get_all_companies.dart';
 import 'package:vacancies/feature/presentation/bloc/company_list_cubit/company_list_state.dart';
 
@@ -13,7 +14,10 @@ const CASHED_FAILURE_MESSAGE = 'Cashe Failure';
 class CompanyListCubit extends Cubit<CompanyState> {
   final GetAllCompanies getAllCompanies;
   final AddCompany addOneCompany;
-  CompanyListCubit(this.addOneCompany, {required this.getAllCompanies})
+  final DeleteCompany deleteOneCompany;
+
+  CompanyListCubit(this.addOneCompany, this.deleteOneCompany,
+      {required this.getAllCompanies})
       : super(CompanyEmpty());
 
   void loadCompany() async {
@@ -47,6 +51,20 @@ class CompanyListCubit extends Cubit<CompanyState> {
               CompanyError(message: _mapFailureToMessage(error)),
             ), (character) {
       emit(CompanyAdded(company));
+    });
+
+    loadCompany();
+  }
+
+  void deleteCompany(CompanyEntity companyDel) async {
+    final failureOrCompany =
+        await deleteOneCompany(CompanyDel(companyDel: companyDel));
+
+    failureOrCompany.fold(
+        (error) => emit(
+              CompanyError(message: _mapFailureToMessage(error)),
+            ), (character) {
+      emit(CompanyDeleted(companyDel));
     });
 
     loadCompany();

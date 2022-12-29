@@ -19,19 +19,24 @@ class CompanyJobsList extends StatelessWidget {
       } else if (state is CompanyJobLoaded) {
         companyJobs = state.jobsList;
       }
-      return ListView.separated(
-        shrinkWrap: true,
-        itemBuilder: ((context, index) {
-          return JobCard(
-            job: companyJobs[index],
-          );
-        }),
-        separatorBuilder: (context, index) {
-          return Divider(
-            color: Colors.grey[400],
-          );
-        },
-        itemCount: (companyJobs.isNotEmpty) ? companyJobs.length : 0,
+      return Container(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height,
+        ),
+        child: ListView.separated(
+          shrinkWrap: true,
+          itemBuilder: ((context, index) {
+            return JobCard(
+              job: companyJobs[index],
+            );
+          }),
+          separatorBuilder: (context, index) {
+            return Divider(
+              color: Colors.grey[400],
+            );
+          },
+          itemCount: (companyJobs.isNotEmpty) ? companyJobs.length : 0,
+        ),
       );
     });
   }

@@ -5,6 +5,7 @@ import 'package:vacancies/core/error/failure.dart';
 import 'package:vacancies/core/platform/network_info.dart';
 import 'package:vacancies/feature/data/datasources/local_data_source.dart';
 import 'package:vacancies/feature/data/datasources/remote_data_source.dart';
+import 'package:vacancies/feature/data/models/company_model.dart';
 import 'package:vacancies/feature/data/models/job_model.dart';
 import 'package:vacancies/feature/domain/entities/company_entity.dart';
 import 'package:vacancies/feature/domain/entities/job_entity.dart';
@@ -97,6 +98,37 @@ class RepositoryImpl implements Repository {
     if (await networkInfo.isConnected) {
       try {
         final remoteJob = await remoteDataSource.addJob(job);
+        localDataSource.jobsToCache(await remoteDataSource.getAllJobs());
+        return Right(remoteJob);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteCompany(CompanyEntity company) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteCompany = await remoteDataSource.deleteCompany(company);
+        localDataSource
+            .companiesToCache(await remoteDataSource.getAllCompanies());
+        return Right(remoteCompany);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteJob(JobEntity job) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteJob = await remoteDataSource.deleteJob(job);
         localDataSource.jobsToCache(await remoteDataSource.getAllJobs());
         return Right(remoteJob);
       } on ServerException {

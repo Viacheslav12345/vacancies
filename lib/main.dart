@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vacancies/common/app_colors.dart';
-import 'package:vacancies/feature/domain/usecases/get_company_jobs.dart';
 import 'package:vacancies/feature/presentation/bloc/company_list_cubit/company_list_cubit.dart';
 import 'package:vacancies/feature/presentation/bloc/job_list_cubit/job_list_cubit.dart';
 import 'package:vacancies/feature/presentation/bloc/company_jobs_cubit/company_jobs_cubit.dart';

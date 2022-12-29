@@ -10,6 +10,8 @@ import 'package:vacancies/feature/data/repositories/repository_impl.dart';
 import 'package:vacancies/feature/domain/repositories/repository.dart';
 import 'package:vacancies/feature/domain/usecases/add_company.dart';
 import 'package:vacancies/feature/domain/usecases/add_job.dart';
+import 'package:vacancies/feature/domain/usecases/delete_company.dart';
+import 'package:vacancies/feature/domain/usecases/delete_job.dart';
 import 'package:vacancies/feature/domain/usecases/get_all_companies.dart';
 import 'package:vacancies/feature/domain/usecases/get_all_jobs.dart';
 import 'package:vacancies/feature/domain/usecases/get_company_jobs.dart';
@@ -23,10 +25,10 @@ final sl = GetIt.instance;
 Future<void> init() async {
   //BLoc / Cubit
   sl.registerFactory(
-    () => CompanyListCubit(sl(), getAllCompanies: sl()),
+    () => CompanyListCubit(sl(), sl(), getAllCompanies: sl()),
   );
   sl.registerFactory(
-    () => JobListCubit(sl(), getAllJobs: sl()),
+    () => JobListCubit(sl(), sl(), getAllJobs: sl()),
   );
   sl.registerFactory(
     () => CompanyJobsListCubit(getCompanyJobs: sl()),
@@ -47,6 +49,12 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => AddJob(sl()),
+  );
+  sl.registerLazySingleton(
+    () => DeleteCompany(sl()),
+  );
+  sl.registerLazySingleton(
+    () => DeleteJob(sl()),
   );
 
 //Repository

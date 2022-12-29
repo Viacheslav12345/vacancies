@@ -21,66 +21,66 @@ class CompanyDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(company.name),
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            Column(children: [
-              const Text(
-                'Компанія:',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 156, 159, 161),
-                  fontSize: 15,
-                ),
+        children: [
+          const SizedBox(height: 30),
+          Column(children: [
+            const Text(
+              'Компанія:',
+              style: TextStyle(
+                color: Color.fromARGB(255, 156, 159, 161),
+                fontSize: 15,
               ),
-              const SizedBox(width: 20),
-              Text(
-                company.name,
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ]),
-            const SizedBox(
-              height: 20,
-              width: 30,
             ),
-            Column(
-              children: [
-                Row(children: [
-                  const Text(
-                    'Галузь:',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 156, 159, 161),
-                      fontSize: 15,
-                    ),
+            const SizedBox(width: 20),
+            Text(
+              company.name,
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ]),
+          const SizedBox(
+            height: 20,
+            width: 30,
+          ),
+          Column(
+            children: [
+              Row(children: [
+                const Text(
+                  'Галузь:',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 156, 159, 161),
+                    fontSize: 15,
                   ),
-                  const SizedBox(width: 20),
-                  Text(
-                    company.industry,
-                    style: const TextStyle(
-                      color: AppColors.buttonColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    ),
-                  ),
-                ]),
-                const SizedBox(
-                  height: 20,
-                  width: 30,
                 ),
-                Row(children: [
-                  const Text(
-                    'Опис:',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 156, 159, 161),
-                      fontSize: 15,
-                    ),
+                const SizedBox(width: 20),
+                Text(
+                  company.industry,
+                  style: const TextStyle(
+                    color: AppColors.buttonColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
                   ),
-                  const SizedBox(width: 20),
-                  Text(
+                ),
+              ]),
+              const SizedBox(
+                height: 20,
+                width: 30,
+              ),
+              Row(children: [
+                const Text(
+                  'Опис:',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 156, 159, 161),
+                    fontSize: 15,
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Flexible(
+                  child: Text(
                     company.description,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
@@ -90,16 +90,16 @@ class CompanyDetailPage extends StatelessWidget {
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,
                   ),
-                ]),
-                const SizedBox(
-                  height: 20,
-                  width: 30,
                 ),
-                const CompanyJobsList(),
-              ],
-            ),
-          ],
-        ),
+              ]),
+              const SizedBox(
+                height: 20,
+                width: 30,
+              ),
+              const CompanyJobsList(),
+            ],
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

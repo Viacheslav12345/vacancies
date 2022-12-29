@@ -15,4 +15,13 @@ class CompanyEntity extends Equatable {
 
   @override
   List<Object?> get props => [id, name, description, industry];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id.toString(),
+      'name': name,
+      'description': description,
+      'industry': industry,
+    };
+  }
 }
