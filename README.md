@@ -16,16 +16,24 @@
 
 Демо-відео застосунку:
 
-<div width="1100" height="800">
-  <ul>
-    <li>Somewhere I Belong
-      <video width="320" height="680" autoplay muted loop playsinline src="https://user-images.githubusercontent.com/101039162/225623951-f3edbba1-f8b2-4775-9fd7-52892eb6460a.mp4" type="video/mp4" frameborder="0" allowfullscreen></video>
-    </li>
-    <li>Castle of Glass
-      <video width="320" height="680" autoplay muted loop playsinline src="https://user-images.githubusercontent.com/101039162/225628077-65a10628-6d8d-4a14-aee0-8e971092259f.mp4" type="video/mp4" frameborder="0" allowfullscreen></video>
-    </li>
-  </ul>
-</div>
+<table width="100%">
+<tr>
+  <td align="left" valign="top" width="25%">
+<video autoplay="autoplay" muted="true" loop="true" controls="controls" preload="metadata"e src="https://user-images.githubusercontent.com/101039162/225660344-3d197e50-48aa-41e8-880f-4a2031c03ec9.mp4" type="video/mp4"  ></video>
+ </td>
+ <td align="left" valign="top" width="25%">
+<video autoplay="autoplay" muted="true" loop="true" controls="controls" preload="metadata" src="https://user-images.githubusercontent.com/101039162/225660328-241d61a6-0083-41ed-9544-c44f0fdacf35.mp4" type="video/mp4"  ></video>
+ </td>
+<td align="left" valign="top" width="25%">
+<video autoplay="autoplay" muted="true" loop="true" controls="controls" preload="metadata" src="https://user-images.githubusercontent.com/101039162/225660300-9a263dcc-8349-4d9e-ac4e-78ef02156dce.mp4" type="video/mp4"  ></video>
+</td>
+<td align="left" valign="top" width="25%">
+<video autoplay="autoplay" muted="true" loop="true" controls="controls" preload="metadata" src="https://user-images.githubusercontent.com/101039162/225660316-35963cac-63fe-4bc3-a93d-43f9e682db16.mp4" type="video/mp4"  ></video>
+ </td>
+ 
+
+</tr>
+</table>
 
  - Можливість додати та видалити компанію. При видаленні компанії видаляються всі її вакансії, якщо вони існують. 
  - Можливість додати та видалити вакансію. При додаванні можливо обрати компанію зі списку.
@@ -53,10 +61,4 @@
  - дані отримуються та зберігаються як на сервері, відповідно до заданих ендпоінтів, так і за допомогою бібліотек Dio та Http, а також локально в кеші девайсу за допомогою Shared Preferences, для того, щоб при відсутності інтернету (перевіряється через internet_connection_checker) завантажити останні дані, що були раніше взяті з серверу.
  - для реалізації залежностей Dependency Injection використаний шаблон Service locator із бібліотеки GetIt. 
  - для керування станом використовується Bloc - Cubit із бібліотеки flutter_bloc.
-
-
-
-
-
-
 
