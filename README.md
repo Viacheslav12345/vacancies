@@ -14,6 +14,19 @@
     <img src="https://user-images.githubusercontent.com/101039162/225592378-0560b778-7903-4c17-bcdb-8a43a60f1ae4.jpg" alt="Preview" height="500px"/>
 </p>
 
+Демо-відео застосунку:
+
+<div width="1100" height="800">
+  <ul>
+    <li>Somewhere I Belong
+      <video width="320" height="680" autoplay muted loop playsinline src="https://user-images.githubusercontent.com/101039162/225623951-f3edbba1-f8b2-4775-9fd7-52892eb6460a.mp4" type="video/mp4" frameborder="0" allowfullscreen></video>
+    </li>
+    <li>Castle of Glass
+      <video width="320" height="680" autoplay muted loop playsinline src="https://user-images.githubusercontent.com/101039162/225628077-65a10628-6d8d-4a14-aee0-8e971092259f.mp4" type="video/mp4" frameborder="0" allowfullscreen></video>
+    </li>
+  </ul>
+</div>
+
  - Можливість додати та видалити компанію. При видаленні компанії видаляються всі її вакансії, якщо вони існують. 
  - Можливість додати та видалити вакансію. При додаванні можливо обрати компанію зі списку.
   <p float="left">
@@ -40,3 +53,10 @@
  - дані отримуються та зберігаються як на сервері, відповідно до заданих ендпоінтів, так і за допомогою бібліотек Dio та Http, а також локально в кеші девайсу за допомогою Shared Preferences, для того, щоб при відсутності інтернету (перевіряється через internet_connection_checker) завантажити останні дані, що були раніше взяті з серверу.
  - для реалізації залежностей Dependency Injection використаний шаблон Service locator із бібліотеки GetIt. 
  - для керування станом використовується Bloc - Cubit із бібліотеки flutter_bloc.
+
+
+
+
+
+
+
