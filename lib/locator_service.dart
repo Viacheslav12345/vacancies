@@ -13,36 +13,28 @@ import 'package:vacancies/feature/domain/usecases/add_job.dart';
 import 'package:vacancies/feature/domain/usecases/delete_company.dart';
 import 'package:vacancies/feature/domain/usecases/delete_job.dart';
 import 'package:vacancies/feature/domain/usecases/get_all_companies.dart';
-import 'package:vacancies/feature/domain/usecases/get_all_jobs.dart';
-import 'package:vacancies/feature/domain/usecases/get_company_jobs.dart';
+import 'package:vacancies/feature/domain/usecases/get_jobs.dart';
 import 'package:vacancies/feature/presentation/bloc/company_list_cubit/company_list_cubit.dart';
 import 'package:vacancies/feature/presentation/bloc/job_list_cubit/job_list_cubit.dart';
-
-import 'feature/presentation/bloc/company_jobs_cubit/company_jobs_cubit.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
   //BLoc / Cubit
+
   sl.registerFactory(
-    () => CompanyListCubit(sl(), sl(), getAllCompanies: sl()),
+    () => CompanyListCubit(getAllCompanies: sl(), sl(), sl(), sl()),
   );
   sl.registerFactory(
-    () => JobListCubit(sl(), sl(), getAllJobs: sl()),
-  );
-  sl.registerFactory(
-    () => CompanyJobsListCubit(getCompanyJobs: sl()),
+    () => JobListCubit(getJobs: sl(), sl(), sl()),
   );
 
 //UseCases
   sl.registerLazySingleton(
-    () => GetAllJobs(sl()),
-  );
-  sl.registerLazySingleton(
     () => GetAllCompanies(sl()),
   );
   sl.registerLazySingleton(
-    () => GetCompanyJobs(sl()),
+    () => GetJobs(sl()),
   );
   sl.registerLazySingleton(
     () => AddCompany(sl()),

@@ -1,12 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vacancies/common/horizontal_gradient_style.dart';
+
 import 'package:vacancies/common/app_colors.dart';
-import 'package:vacancies/feature/presentation/bloc/company_list_cubit/company_list_cubit.dart';
-import 'package:vacancies/feature/presentation/bloc/job_list_cubit/job_list_cubit.dart';
-import 'package:vacancies/feature/presentation/widgets/add_company_form.dart';
-import 'package:vacancies/feature/presentation/widgets/add_job_form.dart';
-import 'package:vacancies/feature/presentation/widgets/companies_list.dart';
-import 'package:vacancies/feature/presentation/widgets/jobs_list.dart';
+import 'package:vacancies/feature/presentation/pages/companies_list.dart';
+import 'package:vacancies/feature/presentation/pages/jobs_list.dart';
+import 'package:vacancies/feature/presentation/widgets/floating_action_buttons.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,34 +29,53 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          toolbarHeight: 40,
+          flexibleSpace: const HorizontalGradientStyle(),
           bottom: TabBar(
             controller: tabController,
             onTap: (value) {
-              tabController.index = value;
-              setState(() {});
+              setState(() {
+                tabController.index = value;
+              });
             },
-            indicatorColor: AppColors.buttonColor,
-            labelColor: AppColors.buttonColor,
+            indicatorColor: (tabController.index == 0)
+                ? AppColors.companyColor
+                : AppColors.jobColor,
+            labelColor: AppColors.jobColor,
             tabs: const [
-              Tab(icon: Icon(Icons.work)),
-              Tab(icon: Icon(Icons.business_outlined))
+              Tab(
+                  icon: Icon(
+                Icons.business_outlined,
+                color: AppColors.companyColor,
+              )),
+              Tab(
+                  icon: Icon(
+                Icons.work,
+                color: AppColors.jobColor,
+              )),
             ],
           ),
           title: (tabController.index == 0)
-              ? const Text('Вакансії')
-              : const Text('Компанії'),
+              ? const Text(
+                  'Компанії',
+                  style: TextStyle(color: AppColors.companyColor),
+                )
+              : const Text(
+                  'Вакансії',
+                  style: TextStyle(color: AppColors.jobColor),
+                ),
           centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () {
-                (tabController.index == 0)
-                    ? BlocProvider.of<JobListCubit>(context).loadJob()
-                    : BlocProvider.of<CompanyListCubit>(context).loadCompany();
-              },
-              focusColor: AppColors.buttonColor,
-              icon: const Icon(Icons.refresh),
-            ),
-          ],
+          // actions: [
+          //   IconButton(
+          //     onPressed: () {
+          //       (tabController.index == 0)
+          //           ? BlocProvider.of<JobListCubit>(context)
+          //           : BlocProvider.of<CompanyListCubit>(context);
+          //     },
+          //     focusColor: AppColors.buttonColor,
+          //     icon: const Icon(Icons.refresh),
+          //   ),
+          // ],
           // leading: IconButton(
           //   onPressed: () {},
           //   focusColor: AppColors.buttonColor,
@@ -67,23 +85,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         body: TabBarView(
           controller: tabController,
           children: const [
-            JobsList(),
             CompaniesList(),
+            JobsList(null),
           ],
         ),
-        floatingActionButton: (tabController.index == 1)
-            ? FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AddCompanyForm()));
-                },
-                backgroundColor: AppColors.buttonColor,
-                tooltip: 'Add',
-                child: const Icon(Icons.add),
-              )
-            : null,
+        floatingActionButton: FloatingActionButtons(tabController.index),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }

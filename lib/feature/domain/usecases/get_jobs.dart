@@ -5,24 +5,25 @@ import 'package:vacancies/core/usecases/usecaseParam.dart';
 import 'package:vacancies/feature/domain/entities/job_entity.dart';
 import 'package:vacancies/feature/domain/repositories/repository.dart';
 
-class GetCompanyJobs extends UseCaseParam<List<JobEntity>, CompanyJobsParams> {
+class GetJobs extends UseCaseParam<List<JobEntity>, JobsParams> {
   final Repository jobRepository;
-  GetCompanyJobs(
+  GetJobs(
     this.jobRepository,
   );
 
   @override
-  Future<Either<Failure, List<JobEntity>>> call(
-      CompanyJobsParams params) async {
-    return await jobRepository.getCompanyJobs(params.companyId);
+  Future<Either<Failure, List<JobEntity>>> call(JobsParams params) async {
+    return await jobRepository.getJobs(params.companyId);
   }
 }
 
-class CompanyJobsParams extends Equatable {
-  final int companyId;
+class JobsParams extends Equatable {
+  final int? companyId;
 
-  const CompanyJobsParams({required this.companyId});
+  const JobsParams([this.companyId]);
 
   @override
-  List<Object> get props => [companyId];
+  List<Object> get props => [
+        [companyId]
+      ];
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vacancies/common/horizontal_gradient_style.dart';
 import 'package:vacancies/feature/domain/entities/company_entity.dart';
 import 'package:vacancies/feature/presentation/bloc/company_list_cubit/company_list_cubit.dart';
 import 'package:vacancies/feature/presentation/bloc/company_list_cubit/company_list_state.dart';
@@ -18,6 +19,17 @@ class CompaniesList extends StatelessWidget {
         return _loadingindicator();
       } else if (state is CompanyLoaded) {
         companies = state.companyList;
+      } else if (state is CompanyError) {
+        return HorizontalGradientStyle(
+            widget: Center(
+                child: Text(
+          'Не можливо відобразити список:\n ${state.message}',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 18,
+            color: Color.fromARGB(255, 237, 129, 129),
+          ),
+        )));
       }
       return ListView.separated(
         itemBuilder: ((context, index) {

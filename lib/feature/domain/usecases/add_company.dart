@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:vacancies/core/error/failure.dart';
 import 'package:vacancies/core/usecases/usecaseParam.dart';
+import 'package:vacancies/feature/domain/entities/company_entity.dart';
 import 'package:vacancies/feature/domain/repositories/repository.dart';
 
 class AddCompany extends UseCaseParam<void, Company> {
@@ -11,13 +12,13 @@ class AddCompany extends UseCaseParam<void, Company> {
   );
 
   @override
-  Future<Either<Failure, void>> call(Company params) async {
+  Future<Either<Failure, int?>> call(Company params) async {
     return await companyRepository.addCompany(params.company);
   }
 }
 
 class Company extends Equatable {
-  final Map<String, dynamic> company;
+  final CompanyEntity company;
 
   const Company({required this.company});
 

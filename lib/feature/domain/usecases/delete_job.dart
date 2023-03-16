@@ -12,7 +12,7 @@ class DeleteJob extends UseCaseParam<void, JobDel> {
   );
 
   @override
-  Future<Either<Failure, void>> call(JobDel params) async {
+  Future<Either<Failure, bool>> call(JobDel params) async {
     return await jobRepository.deleteJob(params.jobDel);
   }
 }

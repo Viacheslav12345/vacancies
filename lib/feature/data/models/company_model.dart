@@ -1,7 +1,7 @@
 import 'package:vacancies/feature/domain/entities/company_entity.dart';
 
 class CompanyModel extends CompanyEntity {
-  const CompanyModel({
+  CompanyModel({
     required id,
     required name,
     required description,

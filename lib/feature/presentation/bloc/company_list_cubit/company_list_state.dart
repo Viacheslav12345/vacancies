@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
+
 import 'package:vacancies/feature/domain/entities/company_entity.dart';
 
 abstract class CompanyState extends Equatable {
@@ -14,11 +16,10 @@ class CompanyEmpty extends CompanyState {
 }
 
 class CompanyLoading extends CompanyState {
-  final List<CompanyEntity> oldCompanyList;
-
-  const CompanyLoading(this.oldCompanyList);
+  final List<CompanyEntity> oldCompnyList;
+  const CompanyLoading(this.oldCompnyList);
   @override
-  List<Object> get props => [oldCompanyList];
+  List<Object> get props => [oldCompnyList];
 }
 
 class CompanyLoaded extends CompanyState {
@@ -37,22 +38,4 @@ class CompanyError extends CompanyState {
 
   @override
   List<Object?> get props => [message];
-}
-
-class CompanyAdded extends CompanyState {
-  final Map<String, dynamic> company;
-
-  const CompanyAdded(this.company);
-
-  @override
-  List<Object> get props => [company];
-}
-
-class CompanyDeleted extends CompanyState {
-  final CompanyEntity company;
-
-  const CompanyDeleted(this.company);
-
-  @override
-  List<Object> get props => [company];
 }

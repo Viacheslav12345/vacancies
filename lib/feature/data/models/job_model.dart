@@ -1,7 +1,7 @@
 import 'package:vacancies/feature/domain/entities/job_entity.dart';
 
 class JobModel extends JobEntity {
-  const JobModel({
+  JobModel({
     required id,
     required companyId,
     required title,

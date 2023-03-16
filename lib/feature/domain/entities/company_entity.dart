@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
 class CompanyEntity extends Equatable {
-  final int id;
+  int? id;
   final String name;
   final String description;
   final String industry;
 
-  const CompanyEntity({
+  CompanyEntity({
     required this.id,
     required this.name,
     required this.description,

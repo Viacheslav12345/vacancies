@@ -5,8 +5,6 @@ import 'package:vacancies/core/error/failure.dart';
 import 'package:vacancies/core/platform/network_info.dart';
 import 'package:vacancies/feature/data/datasources/local_data_source.dart';
 import 'package:vacancies/feature/data/datasources/remote_data_source.dart';
-import 'package:vacancies/feature/data/models/company_model.dart';
-import 'package:vacancies/feature/data/models/job_model.dart';
 import 'package:vacancies/feature/domain/entities/company_entity.dart';
 import 'package:vacancies/feature/domain/entities/job_entity.dart';
 import 'package:vacancies/feature/domain/repositories/repository.dart';
@@ -44,25 +42,11 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, List<JobEntity>>> getAllJobs() async {
-    return await _getJobs(() {
-      return remoteDataSource.getAllJobs();
-    });
-  }
-
-  @override
-  Future<Either<Failure, List<JobEntity>>> getCompanyJobs(int companyId) async {
-    return await _getJobs(() {
-      return remoteDataSource.getCompanyJobs(companyId);
-    });
-  }
-
-  Future<Either<Failure, List<JobModel>>> _getJobs(
-      Future<List<JobModel>> Function() getJobs) async {
+  Future<Either<Failure, List<JobEntity>>> getJobs([int? companyId]) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteJob = await getJobs();
-        localDataSource.jobsToCache(remoteJob);
+        final remoteJob = await remoteDataSource.getJobs(companyId);
+        if (companyId == null) localDataSource.jobsToCache(remoteJob);
         return Right(remoteJob);
       } on ServerException {
         return Left(ServerFailure());
@@ -70,7 +54,9 @@ class RepositoryImpl implements Repository {
     } else {
       try {
         final locationJob = await localDataSource.getLastJobsFromCache();
-        return Right(locationJob);
+        return Right((companyId == null)
+            ? locationJob
+            : locationJob.where((job) => job.companyId == companyId).toList());
       } on CacheException {
         return Left(CacheFailure());
       }
@@ -78,7 +64,7 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, void>> addCompany(Map<String, dynamic> company) async {
+  Future<Either<Failure, int?>> addCompany(CompanyEntity company) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteCompany = await remoteDataSource.addCompany(company);
@@ -89,27 +75,27 @@ class RepositoryImpl implements Repository {
         return Left(ServerFailure());
       }
     } else {
-      return Left(ServerFailure());
+      return const Right(null);
     }
   }
 
   @override
-  Future<Either<Failure, void>> addJob(Map<String, dynamic> job) async {
+  Future<Either<Failure, int?>> addJob(JobEntity job) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteJob = await remoteDataSource.addJob(job);
-        localDataSource.jobsToCache(await remoteDataSource.getAllJobs());
+        localDataSource.jobsToCache(await remoteDataSource.getJobs());
         return Right(remoteJob);
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
-      return Left(ServerFailure());
+      return const Right(null);
     }
   }
 
   @override
-  Future<Either<Failure, void>> deleteCompany(CompanyEntity company) async {
+  Future<Either<Failure, bool>> deleteCompany(CompanyEntity company) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteCompany = await remoteDataSource.deleteCompany(company);
@@ -120,22 +106,22 @@ class RepositoryImpl implements Repository {
         return Left(ServerFailure());
       }
     } else {
-      return Left(ServerFailure());
+      return const Right(false);
     }
   }
 
   @override
-  Future<Either<Failure, void>> deleteJob(JobEntity job) async {
+  Future<Either<Failure, bool>> deleteJob(JobEntity job) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteJob = await remoteDataSource.deleteJob(job);
-        localDataSource.jobsToCache(await remoteDataSource.getAllJobs());
+        localDataSource.jobsToCache(await remoteDataSource.getJobs());
         return Right(remoteJob);
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
-      return Left(ServerFailure());
+      return const Right(false);
     }
   }
 }

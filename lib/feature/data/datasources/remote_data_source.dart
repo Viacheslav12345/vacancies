@@ -9,12 +9,11 @@ import 'package:http/http.dart' as http;
 
 abstract class RemoteDataSource {
   Future<List<CompanyModel>> getAllCompanies();
-  Future<List<JobModel>> getAllJobs();
-  Future<List<JobModel>> getCompanyJobs(int companyId);
-  Future<void> addCompany(Map<String, dynamic> company);
-  Future<void> addJob(Map<String, dynamic> job);
-  Future<void> deleteCompany(CompanyEntity company);
-  Future<void> deleteJob(JobEntity job);
+  Future<List<JobModel>> getJobs([int? companyId]);
+  Future<int> addCompany(CompanyEntity company);
+  Future<int> addJob(JobEntity job);
+  Future<bool> deleteCompany(CompanyEntity company);
+  Future<bool> deleteJob(JobEntity job);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -33,22 +32,21 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<List<CompanyModel>> getAllCompanies() async {
     final response = await client.get(pathCompanies);
+    print(pathCompanies);
     if (response.statusCode == 200) {
       final companies = response.data;
       return (companies['result'] as List)
           .map((company) => CompanyModel.fromJson(company))
           .toList();
     } else {
-      throw ServerException();
+      throw ServerException(response.statusMessage);
     }
   }
 
   @override
-  Future<List<JobModel>> getAllJobs() => _getJobsFromUrl(pathJobs);
-
-  @override
-  Future<List<JobModel>> getCompanyJobs(int companyId) =>
-      _getJobsFromUrl('$pathCompanies/$companyId/jobs/');
+  Future<List<JobModel>> getJobs([int? companyId]) => (companyId != null)
+      ? _getJobsFromUrl('$pathCompanies/$companyId/jobs/')
+      : _getJobsFromUrl(pathJobs);
 
   Future<List<JobModel>> _getJobsFromUrl(String url) async {
     print(url);
@@ -59,52 +57,68 @@ class RemoteDataSourceImpl implements RemoteDataSource {
           .map((job) => JobModel.fromJson(job))
           .toList();
     } else {
-      throw ServerException();
+      throw ServerException(response.statusMessage);
     }
   }
 
   @override
-  Future<void> addCompany(Map<String, dynamic> company) async {
-    final response =
-        await client.post(pathCompanies, data: CompanyModel.fromJson(company));
+  Future<int> addCompany(CompanyEntity company) async {
+    final response = await client.post(pathCompanies, data: company.toJson());
     if (response.statusCode == 200) {
       print('Company $company added to Server: ');
     } else {
-      throw ServerException();
+      throw ServerException(response.statusMessage);
     }
+    return response.data['id'];
   }
 
   @override
-  Future<void> addJob(Map<String, dynamic> job) async {
-    final response = await client.post(pathJobs, data: JobModel.fromJson(job));
+  Future<int> addJob(JobEntity job) async {
+    final response = await client.post(pathJobs, data: job);
     if (response.statusCode == 200) {
       print('Job $job added to Server: ');
     } else {
-      throw ServerException();
+      throw ServerException(response.statusMessage);
     }
+    return response.data['id'];
   }
 
   @override
-  Future<void> deleteCompany(CompanyEntity company) async {
+  Future<bool> deleteCompany(CompanyEntity company) async {
+    bool responseStatus = false;
     final companyId = company.id;
     final jsonString = company.toJson().toString();
 
-    await http.delete(
+    final response = await http.delete(
       Uri.parse('$baseUrl$pathCompanies/$companyId'),
       body: jsonString,
     );
-    print(jsonString);
+    if (response.statusCode == 200) {
+      responseStatus = true;
+      print('Компанія видалена з сервера: $jsonString');
+    } else {
+      throw ServerException(response.reasonPhrase);
+    }
+    return responseStatus;
   }
 
   @override
-  Future<void> deleteJob(JobEntity job) async {
+  Future<bool> deleteJob(JobEntity job) async {
+    bool responseStatus = false;
+
     final jobId = job.id;
     final jsonString = job.toJson().toString();
 
-    await http.delete(
-      Uri.parse('$baseUrl$pathCompanies/$jobId'),
+    final response = await http.delete(
+      Uri.parse('$baseUrl$pathJobs/$jobId'),
       body: jsonString,
     );
-    print(jsonString);
+
+    if (response.statusCode == 200) {
+      print('Вакансія видалена з сервера: ${jsonString}');
+    } else {
+      throw ServerException(response.reasonPhrase);
+    }
+    return responseStatus;
   }
 }

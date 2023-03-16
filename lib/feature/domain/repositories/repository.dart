@@ -5,10 +5,9 @@ import 'package:vacancies/feature/domain/entities/job_entity.dart';
 
 abstract class Repository {
   Future<Either<Failure, List<CompanyEntity>>> getAllCompanies();
-  Future<Either<Failure, List<JobEntity>>> getAllJobs();
-  Future<Either<Failure, List<JobEntity>>> getCompanyJobs(int companyId);
-  Future<Either<Failure, void>> addJob(Map<String, dynamic> job);
-  Future<Either<Failure, void>> addCompany(Map<String, dynamic> company);
-  Future<Either<Failure, void>> deleteJob(JobEntity job);
-  Future<Either<Failure, void>> deleteCompany(CompanyEntity company);
+  Future<Either<Failure, List<JobEntity>>> getJobs([int? companyId]);
+  Future<Either<Failure, int?>> addJob(JobEntity job);
+  Future<Either<Failure, int?>> addCompany(CompanyEntity company);
+  Future<Either<Failure, bool>> deleteJob(JobEntity job);
+  Future<Either<Failure, bool>> deleteCompany(CompanyEntity company);
 }

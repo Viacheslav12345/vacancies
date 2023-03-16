@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 class JobEntity extends Equatable {
-  final int id;
+  int? id;
   final int companyId;
   final String title;
   final String description;
   final String city;
 
-  const JobEntity({
+  JobEntity({
     required this.id,
     required this.companyId,
     required this.title,
@@ -27,4 +27,11 @@ class JobEntity extends Equatable {
       'city': city,
     };
   }
+
+  // Map<String, dynamic> toMap() {
+  //   return {
+  //     'id': id,
+  //     'companyId': companyId,
+  //   };
+  // }
 }

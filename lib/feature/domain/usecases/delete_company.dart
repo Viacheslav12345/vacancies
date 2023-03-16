@@ -12,7 +12,7 @@ class DeleteCompany extends UseCaseParam<void, CompanyDel> {
   );
 
   @override
-  Future<Either<Failure, void>> call(CompanyDel params) async {
+  Future<Either<Failure, bool>> call(CompanyDel params) async {
     return await companyRepository.deleteCompany(params.companyDel);
   }
 }

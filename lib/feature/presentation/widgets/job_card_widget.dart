@@ -4,9 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:vacancies/common/app_colors.dart';
+import 'package:vacancies/common/horizontal_gradient_style.dart';
 import 'package:vacancies/feature/domain/entities/job_entity.dart';
+import 'package:vacancies/feature/presentation/bloc/company_list_cubit/company_list_cubit.dart';
 import 'package:vacancies/feature/presentation/bloc/job_list_cubit/job_list_cubit.dart';
 import 'package:vacancies/feature/presentation/pages/job_detail_screen.dart';
+import 'package:vacancies/feature/presentation/widgets/show_dialog.dart';
+import 'package:vacancies/main.dart';
 
 class JobCard extends StatelessWidget {
   final JobEntity job;
@@ -16,6 +20,19 @@ class JobCard extends StatelessWidget {
     required this.job,
   }) : super(key: key);
 
+  void _deleteCurrentJob() async {
+    var context = navigatorKey.currentContext!;
+    bool statusDeleteJob =
+        await BlocProvider.of<JobListCubit>(context).deleteJob(job);
+    showOkDialog(
+        countPop: 1,
+        response: statusDeleteJob,
+        title: 'Видалення вакансії',
+        content1: 'Вакансію ${job.title.toUpperCase()} видалено.',
+        content2:
+            "Вакансію ${job.title.toUpperCase()} зараз не можливо видалити.\n Не має зв'язку з сервером!");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -23,12 +40,12 @@ class JobCard extends StatelessWidget {
         endActionPane: ActionPane(
           motion: const ScrollMotion(),
           dismissible: DismissiblePane(onDismissed: () {
-            BlocProvider.of<JobListCubit>(context).loadJob();
+            _deleteCurrentJob();
           }),
           children: [
             SlidableAction(
               onPressed: (context) {
-                BlocProvider.of<JobListCubit>(context).deleteJob(job);
+                _deleteCurrentJob();
               },
               backgroundColor: const Color(0xFFFE4A49),
               foregroundColor: Colors.white,
@@ -48,12 +65,8 @@ class JobCard extends StatelessWidget {
                             job: job,
                           )));
             },
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.cellBackground,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
+            child: HorizontalGradientStyle(
+              widget: Column(
                 children: [
                   const SizedBox(height: 10),
                   Container(
@@ -64,6 +77,7 @@ class JobCard extends StatelessWidget {
                       textAlign: TextAlign.left,
                       style: const TextStyle(
                         fontSize: 20,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
@@ -72,12 +86,15 @@ class JobCard extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '${job.companyId}',
+                      BlocProvider.of<CompanyListCubit>(context)
+                              .companyName(job.companyId) ??
+                          '',
                       textAlign: TextAlign.left,
                       style: const TextStyle(
-                        color: AppColors.buttonColor,
+                        color: AppColors.jobColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
@@ -92,7 +109,7 @@ class JobCard extends StatelessWidget {
                         color: Color(0xFFBDBDBD),
                         fontSize: 15,
                       ),
-                      maxLines: 4,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -102,7 +119,7 @@ class JobCard extends StatelessWidget {
                     child: Text(
                       job.city,
                       style: const TextStyle(
-                        color: AppColors.buttonColor,
+                        color: AppColors.jobColor,
                         fontSize: 15,
                       ),
                     ),
