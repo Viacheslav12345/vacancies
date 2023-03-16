@@ -19,16 +19,16 @@
 <table width="100%">
 <tr>
   <td align="left" valign="top" width="25%">
-<video autoplay="autoplay" muted="true" loop="true" controls="controls" preload="metadata"e src="https://user-images.githubusercontent.com/101039162/225660344-3d197e50-48aa-41e8-880f-4a2031c03ec9.mp4" type="video/mp4"  ></video>
+<video autoplay="autoplay" muted="true" loop="loop" controls="controls" src="https://user-images.githubusercontent.com/101039162/225660344-3d197e50-48aa-41e8-880f-4a2031c03ec9.mp4" type="video/mp4"  ></video>
  </td>
  <td align="left" valign="top" width="25%">
-<video autoplay="autoplay" muted="true" loop="true" controls="controls" preload="metadata" src="https://user-images.githubusercontent.com/101039162/225660328-241d61a6-0083-41ed-9544-c44f0fdacf35.mp4" type="video/mp4"  ></video>
+<video autoplay="autoplay" muted="true" loop="loop" controls="controls" src="https://user-images.githubusercontent.com/101039162/225660328-241d61a6-0083-41ed-9544-c44f0fdacf35.mp4" type="video/mp4"  ></video>
  </td>
 <td align="left" valign="top" width="25%">
-<video autoplay="autoplay" muted="true" loop="true" controls="controls" preload="metadata" src="https://user-images.githubusercontent.com/101039162/225660300-9a263dcc-8349-4d9e-ac4e-78ef02156dce.mp4" type="video/mp4"  ></video>
+<video autoplay="autoplay" muted="true" loop="loop" controls="controls" src="https://user-images.githubusercontent.com/101039162/225660300-9a263dcc-8349-4d9e-ac4e-78ef02156dce.mp4" type="video/mp4"  ></video>
 </td>
 <td align="left" valign="top" width="25%">
-<video autoplay="autoplay" muted="true" loop="true" controls="controls" preload="metadata" src="https://user-images.githubusercontent.com/101039162/225660316-35963cac-63fe-4bc3-a93d-43f9e682db16.mp4" type="video/mp4"  ></video>
+<video autoplay="autoplay" muted="true" loop="loop" controls="controls" src="https://user-images.githubusercontent.com/101039162/225660316-35963cac-63fe-4bc3-a93d-43f9e682db16.mp4" type="video/mp4"  ></video>
  </td>
  
 
